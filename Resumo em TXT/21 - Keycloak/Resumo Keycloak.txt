@@ -1,0 +1,19 @@
+Keycloak
+
+⦁	Armazenar senha e dados sensíveis é uma missão crítica. São informações que podem vazar;
+
+⦁	Podemos então delegar o processo de autenticação a um sistema externo;
+
+⦁	Esses sistemas especializados em autenticação também gerenciam os perfis de usuário e possuem forte controle de segurança, criptografia e proteção contra ataques;
+
+⦁	Então vamos utilizar o Keycloak para isso (autenticação);
+
+⦁	Precisamos entender o que é IAM - Identity and access management;
+
+⦁	IAM = é a responsável por permitir que os indivíduos certos acessem os recursos certos, nos momentos certos e pelos motivos certos.
+
+⦁	O Keycloak implementa o IAM e é opensource;
+
+⦁	SSO = É a autenticação única, ou seja, digito uma vez  o usuário e senha (pode haver token enviado pelo celular também)  e consigo acessar todas as aplicações necessárias, incluindo aplicações independentes. Isso acontece mais ou menos assim: fiz o primeiro login, um sessão é criada no servidor de SSO, quando eu abrir uma nova aplicação, essa aplicação primeiro verifica se eu possuo uma sessão de SSO aberta e, se tiver, faz a autenticação de forma transparente e segura sem que o eu precise digitar senha novamente.
+
+⦁	CNCF =  uma espécie de catálogo que nos ajuda escolher ferramentas que nos ajudam a trabalhar com aplicações Cloud-native.

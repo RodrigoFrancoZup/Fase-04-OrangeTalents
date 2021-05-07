@@ -1,0 +1,20 @@
+Jeager - Log:
+
+⦁	O Spring prove a classe Tracer para fazermos operações relacionadas ao OpenTracing;
+	1º) Precisamos injetar o objeto Tracer, conforme código abaixo: 
+
+	public class PropostaController { 
+	private final Tracer tracer; 
+	public PropostaController(Tracer tracer) {
+	 this.tracer = tracer; }
+	 } 
+
+	2º) Agora que temos o objeto, precisamos pegar o span ativo, conforme código 	abaixo: 
+
+	Span activeSpan = tracer.activeSpan(); 
+
+	3º )Precisamos definir o log desejado, para isso o objetivo Span tem o método 	log, 	conforme código abaixo: 
+
+	activeSpan.log("Meu log");
+
+⦁	Para testar basta acessar: localhost:16686/search (Jaeger precisa ser inciado, verifique o docker-compose) e realize uma operação como criar uma proposta. Verificar o log criado: Meu log

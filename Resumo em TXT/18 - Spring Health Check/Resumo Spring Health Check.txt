@@ -1,0 +1,40 @@
+Spring Health Check:
+
+⦁	Vamos criar nosso próprio Health Check utilizando o Spring Boot Actuator. Para isso siga os passos:
+
+1.	Criar a classe MeuHealthCehck e essa deve implementar a interface HealthIndicator e ser anotada com @Componente;
+2.	Implementar o método health();
+3.	Esse método retorna um Health e nele podemos colocar o seu status. Ficando assim:  return Health.status(Status.UP).build();
+4.	Para testar basta acessar: http://localhost:8080/actuator/health
+5.	Os status podem ser:
+DOWN: Status indicando que o componente ou subsistema sofreu uma falha inesperada. 
+OUT_OF_SERVICE: Status indicando que o componente ou subsistema foi retirado de serviço e não deve ser usado. 
+UNKNOWN: Status indicando que o componente ou subsistema está em um estado desconhecido. 
+UP: Status indicando que o componente ou subsistema está funcionando conforme o esperado.
+	
+⦁	Podemos (quase devemos) passar mais informações no nosso HealthIndicator, podemos passar versão, descrição e IP. Veja como fica a implementação: 
+	@Override public Health health() { 
+		Map<String, Object> details = new HashMap<>();
+		 details.put("versão", "1.2.3"); 
+		details.put("descrição", "Meu primeiro Health Check customizado!");
+		details.put("endereço", "127.0.0.1"); 
+		return Health.status(Status.UP).withDetails(details).build(); 
+	}
+
+⦁	Para testar basta acessar : http://localhost:8080/actuator/health
+
+⦁	Pergunta do mentor (formulário):
+Agora que aprendemos um pouco sobre Healthcheck imagine que temos uma API onde além da informação de saúde da aplicação existe um requisito solicitando que a versão em execução também seja exibida. Como você faria para exibir essa informação?
+
+⦁	Minha resposta:
+Eu criaria meu próprio indicador de saúde da aplicação. Para isso basta criar uma classe que implemente a interface HealthIndicator e implementar o método Health. Na implementação desse método vou criar um mapa e nele vou armazenar como chave o texto “versão” e valor será a própria versão da aplicação. Depois basta retornar o objeto Health, com o status e com o mapa de detalhes.
+
+⦁	Resposta do mentor:
+Objetivo de aprendizado: Configurar um HealthIndicator customizado na API para a mesma passar a fornecer informações de saúde da API e outras informações necessárias
+Motivo da escolha: O módulo Spring Boot Actuator já fornece uma série de funcionalidades para o monitoramento de saúde da API, auditoria e coleta de métricas, inclusive uma maneira de criar indicadores de saúde customizados.
+Crio uma nova classe que implementa a interface HealthIndicator fornecida pelo módulo do SpringBoot Actuator.
+Implemento o método health() dessa interface, onde realizo a lógica de checagem do status da aplicação (aqui posso verificar outros componentes da API, como banco de dados, etc).
+Neste mesmo método, crio um Map<String, Object> onde irei inserir as informações customizadas requeridas, onde a chave String representa a descrição da informação ("versão") e o valor Object representa a informação em si (“1.0” por exemplo)
+Utilizo a classe Health chamando os métodos status para informar a condição de saúde da aplicação, withDetails passando o Map com os detalhes que foi construído anteriormente, e o método build, que me retorna um novo objeto Health com as informações passadas anteriormente.
+Retorno o objeto do tipo Health construído.
+Por fim, anoto essa minha nova classe com @Component para que o Spring considere essa nova implementação.

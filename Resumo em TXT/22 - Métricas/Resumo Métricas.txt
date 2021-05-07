@@ -1,0 +1,12 @@
+Métricas
+
+⦁	Métrica é muito importante para desenvolvimento de software, principalmente em sistemas distribuídos;
+
+⦁	Utilizamos métricas para troubleshooting e para tomar decisões, por exemplo:
+i.	Utilização de recurso computacional (CPU, Memória, Rede..);
+ii.	Tempo de processamento de uma funcionalidade;
+iii.	Utilização de um determinado produto (vendas online, físicas ou terceiros).
+
+⦁	Todos software tem que ter observabilidade, pois eles podem crescer e pode ocorrer vários cenários com pontos de falha;
+
+⦁	Sucesso é fruto de bom planejamento, quanto mais métricas úteis, melhor serão as nossas tomadas de decisão (tanto técnica, quanto de negócio).

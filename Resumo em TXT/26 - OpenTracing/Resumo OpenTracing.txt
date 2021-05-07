@@ -1,0 +1,24 @@
+OpenTracing:
+
+⦁	Ultimamente os modelos de arquitetura distribuídos, como Microsserviços, vem sendo muito utilizado;
+
+⦁	Como tudo em tecnologia, teremos vantagens e desvantagens;
+
+⦁	Uma desvantagem desse modelo é o troubleshooting de problemas, ou seja,  é difícil encontrar a raiz do problema. Isso ocorre, pois nessa arquitetura temos: Serviço A utiliza o  Serviço B, o serviço B utiliza o serviço C, e assim por diante, logo descobrir o motivo da quebra do funcionamento da aplicação é mais difícil;
+
+⦁	Um alternativa seria coletar e analisar Logs, mas isso fica inviável com muitos serviços, pois em cenários reais teremos várias instâncias do mesmo serviço;
+
+⦁	Por isso a comunidade passou a desenvolver soluções para melhorar a observabilidade dos serviços: Trace, Métricas, Logs;
+
+⦁	Surgiu o OpenTracing, especificação para tratar o pilar de Trace. Consiste em passar metadados entre os serviços. Esses metadados são gerados no início de cada operação. Podemos passar esses metadados através dos protocolos: HTTP, AMQP e RPC;
+
+⦁	Esses metadados também são repassados assincronamente para uma ferramenta que os armazena e provê funcionalidades como: 
+a.	Catálogo de serviços:Filtro por serviços;
+b.	Catálogo de operações: Filtro por metadata, filtro por data, filtro por duração;]
+c.	Gráfico da operação (Gera um gráfico que mostra os serviços, ocorrência de erros e falhas, o tempo gasto nos serviços).
+
+⦁	Quando falamos de OpenTracing temos algumas terminologias importantes:
+a.	Span: período que representa uma operação. Span contém metadados importantes (nome da operação; início da operação; término da operação; Tags do span/operação em si [nome do serviço, ip, método]; Baggages (pares de string de valor que se aplicam ao span, se propagam em conjunto com o próprio rastreamento - por exemplo identificador de usuário); Logs do span.
+b.	Trace: É um conjunto de Span, que contém a ordem de execução.
+
+⦁	Dica: Utilize o Baggage para propagar informações do contexto do negócio, assim poderemos filtrar por eles e melhorar a sustentação, por exemplo, propague sempre o id do usuário, se o usuário X reclamar, vamos achar mais rapidamente o motivo.

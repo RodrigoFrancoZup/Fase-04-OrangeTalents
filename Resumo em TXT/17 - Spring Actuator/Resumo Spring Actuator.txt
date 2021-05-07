@@ -1,0 +1,72 @@
+Spring Boot Actuator
+
+⦁	É um módulo (projeto do Spring) que nos permite monitorar e gerenciar o aplicativo na fase de produção (fase que o aplicativo encontra-se com o cliente);
+
+⦁	Para obtermos essas informações vamos acessar alguns endpoints. Há endpoint para a saúde (Health Check), para métricas da aplicação, para propriedades da aplicação, entre outras;
+
+⦁	Para configurar basta adicionar no arquivo pom.xml a dependência: 
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+	
+	Acessar o endpoint: http://localhost:8080/actuator
+
+⦁	Podemos liberar mais detalhes do Health colocando no application.properties o comando: management.endpoint.health.show-details = always ou never ou when-authorized;
+
+⦁	Agora vamos falar de Segurança! Tema muito importante e ao adicionar o Actuator devemos dar mais atenção!
+
+⦁	A preocupação com segurança deve começar junto com a criação do projeto e continuar durante todo o processo de desenvolvimento, ou seja, devemos incorporar o a segurança ao design do código!
+
+⦁	Garanta que sua aplicação utilize somente o conjunto de permissões que ela necessita. Exemplo: se sua aplicação precise de acesso de leitura no banco de dados crie uma conta que permita somente leitura,
+
+⦁	Ao adicionar o Actuator não devemos deixar nossa API Pública, devemos adicionar autenticação e autorização;
+
+⦁	Outra prática amplamente utilizada para evitar ataques ou roubo de dados nas nossas aplicações é encriptar os dados em trânsito, utilizando um canal seguro;
+
+⦁	Outro fator importante é o Ofuscamento. Sempre que precisarmos "logar - colocar no Log" uma informação que seja passível de identificação de uma pessoa é necessário realizar o ofuscamento do dado. Exemplos: 
+	CPF - 635.247.373-31 vira 635..-31;
+	Email - joe@email.com vira j****@****.com
+
+⦁	O princípio do menor privilégio (POLP):  resumidamente é dar acesso suficiente para realizar o trabalho necessário. Exemplo:  Se um usuário só tem a necessidade de adicionar um registro no banco de dados o seu privilégio só deve ser capaz de adicionar um registro, assim se um malware infectar o computador do funcionário ou se o funcionário clicar em um link em um e-mail de phishing, o ataque malicioso se limitará a fazer entradas no banco de dados. Se esse funcionário tiver privilégios de acesso root, no entanto, a infecção pode se espalhar por todo o sistema.
+
+⦁	Lugar/Camada que exige-se ofuscamento? Sempre que possível, ofusque! Os lugares mais comuns são Log de aplicação e Log de API's no API Manager;
+
+⦁	Nos desenvolvedores usamos os logs da nossa aplicação como uma ferramenta de encontrar problemas, normalmente nossos logs indicam os passos ou informações que nos ajudam a direcionar a resolução desses problemas. Usar log no Spring: 
+	private final Logger logger = LoggerFactory.getLogger(Exemplo.class);
+		public void criarProposta(Proposta proposta) { 
+		// Código omitido 
+		logger.info("Proposta documento={} salário={} criada com sucesso!", 			proposta.getDocumento(), proposta.getSalario()); 
+		}
+
+	UTILIZE LOG, MAS COM CUIDADO!
+
+⦁	O motivo de ter falado sobre segurança em Spring Boot Actuator é que esse módulo traz muitas informações e (libera muitos endpoints) isso é bom para nós, conseguimos ver a saúde de nossa aplicação! Mas essas informações podem ser utilizadas para explorar falhas de segurança, pois entre essas informações estão todas as dependências de nosso projeto e um Hacker pode conhecer ou pesquisar a falha dessas dependências;
+
+⦁	Podemos melhorar o que foi dito anteriormente de duas maneiras: 1) habilitando endpoints (de informações) necessárias ou 2) Remover os endpoint não utilizados. Comandos para fazer isso:
+	1º Habilitar somente o que é utilizado: 	management.endpoints.web.exposure.include=health,metrics,prometheus
+	2º Remover os não utilizados: 	management.endpoints.web.exposure.exclude=env,beans
+	
+⦁	CORS (Cross-origin Resource Sharing) - É uma especificação do W3C que utiliza o cabeçalho (header) do HTTP para informar aos navegadores se um determinado recurso pode ou não ser acessado. Podemos permitir que um recurso so seja acessado por uma origem específica. - Podemos aplicar isso ao Actuator, ou seja, ele só vai dar informação se a requisição vier da origem configurada. Podemos configurá-lo adicionando em application.properties os dois comandos:
+	management.endpoints.web.cors.allowed-origins=https://example.com
+	management.endpoints.web.cors.allowed-methods=GET
+
+⦁	Pergunta do professor sobre Segurança em app cloud-native:
+
+Imagine que estamos trabalhando com uma API que trata de dados de cartão de crédito de clientes de um banco. Supondo que essa aplicação será disponibilizada em um ambiente Cloud, quais cuidados devemos tomar em relação aos dados dos usuários processados pela aplicação? 
+Geralmente utilizamos ferramentas de log na construção de APIs para facilitar a identificação de comportamentos incorretos, bugs ou falhas na execução de funcionalidades. Quais cuidados devemos tomar em relação aos logs quando pensamos em segurança? 
+Sendo uma API, nossa aplicação se comunicará com outras. Pensando nisso descreva uma vulnerabilidade que podemos encontrar em relação a segurança e uma possível solução para ela.
+E em relação ao banco de dados? Uma vez que estamos trabalhando com dados de cartão de crédito dos clientes e os mesmo serão persistidos, o que você imagina que pode ser feito para diminuir a possibilidade do vazamento dessas informações sensíveis ?
+
+⦁	Minha resposta:
+Os dados tratados em nossa API devem ser  encriptografados e transmitidos  em um canal seguro. Quanto a utilização de logs devemos ter cuidado ao exibir o valor dos dados, pois são dados que identificam o usuário, então devemos aplicar a técnica de ofuscamento.
+Se tratando de uma API, nós podemos restringir o acesso dos clientes, ou seja, o cliente só acessa determinados endpoints. Para isso vamos utilizar: autenticação e validação.
+Sobre o banco de dados devemos criar vários usuários com papéis bem definidos e em nossa aplicação utilizar o usuário que tenha somente as atribuições necessárias, ou seja, nada de usar o banco com um usuário que pode fazer tudo (criar, alterar, deletar, consultar) sem que haja necessidade disso tudo.
+
+⦁	Resposta do professor:
+Objetivo de aprendizado: Levar em consideração a segurança da nossa API, principalmente em relação a dados sensíveis trafegados e manipulados por ela utilizando criptografia e ofuscamento dos dados.
+Motivo da escolha: Geralmente utilizamos ferramentas de log nas aplicações e ofuscar os dados apresentados se torna necessário para minimizar a possibilidade do vazamento de dados sensíveis. Como há comunicação entre API através da rede, devemos também nos preocupar com a possível interceptação das informações no caminho entre origem e destino.
+Para os logs da aplicação, ofusco os dados que possam identificar os nossos clientes e/ou permitir que um agente malicioso faça utilização imprópria dos mesmos.
+Para que a comunicação entre as aplicações seja feita se forma segura utilizo Spring Security para a configuração e a realização de autenticação e autorização de quem for utilizar as funcionalidades da nossa API.
+Para a camada de rede, implemento um suporte a HTTPS para criptografar os dados trafegados.
+Os dados persistidos em banco também podem ser criptografados. Geralmente bancos de dados já possuem funcionalidades para isso. Assim, qualquer pessoa que acesse o banco de dados não obterá as informações de maneira legível.

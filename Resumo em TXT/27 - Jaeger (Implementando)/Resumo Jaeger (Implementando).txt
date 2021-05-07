@@ -1,0 +1,37 @@
+Jaeger:
+
+⦁	Jaeger é uma implementação famosa do OpenTracing;
+
+⦁	Para colocá-lo em um projeto Spring:
+1.	Adicionar no arquivo pom.xml a seguinte dependência:                                              	<dependency>										<groupId>io.opentracing.contrib</groupId>					<artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>			<version>3.2.2</version>					</dependency>
+2.	Configurá-lo clocando as seguintes propriedades no arquivo application.properties: 
+	# Jaeger - Habilita ou não 
+	opentracing.jaeger.enabled=${JAEGER_ENABLED:true}
+	 # Jaeger - Nome do serviço 
+	opentracing.jaeger.service-name=${spring.application.name} 
+	# Jaeger - Endereço para enviar os metadados (trace, span, etc) 
+	opentracing.jaeger.http-sender.url=${JAEGER_ENDPOINT:http://localhost:14268/api/traces} 
+	# Jaeger - Tipo de amostragem (probabilístico) e sua configuração (1 = 100%) 	
+	opentracing.jaeger.probabilistic-sampler.sampling-rate=${JAEGER_SAMPLER:1}
+
+Obs:  Se a sua aplicação estiver travada no log "Triggering deferred initialization of Spring Data repositories…", por favor, desabilite a configuração de OpenTracing para JDBC adicionando a seguinte propriedade: 
+opentracing.spring.cloud.jdbc.enabled=false
+
+⦁	Está tudo configurado. O Spring faz uma mágica, desse jeito já temos automaticamente funcionando vários módulos:
+a.	Spring Web (RestControllers, RestTemplates, WebAsyncTask, WebClient, WebFlux);
+b.	 @Async, @Scheduled, Executors;
+c.	WebSocket STOMP; 
+d.	Feign, HystrixFeign;
+e.	 Hystrix;
+f.	JMS;
+g.	JDBC;
+h.	Kafka;
+i.	Mongo;
+j.	Zuul;
+k.	Reactor;
+l.	RxJava;
+m.	Redis Standard logging - logs are added to active span;
+n.	Spring Messaging - trace messages being sent through Messaging Channels;
+o.	RabbitMQ.
+
+⦁	Para testar basta acessar: localhost:16686/search e fazer algumas operações, como criar proposta. Depois basta verificar no Jaeger, selecionando o nome do serviço e indo na opção Find Traces. Poderemos filtrar por tag, por spans...

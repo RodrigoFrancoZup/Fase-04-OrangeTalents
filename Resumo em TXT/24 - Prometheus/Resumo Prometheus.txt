@@ -1,0 +1,20 @@
+Prometheus:
+
+⦁	É um sistema de monitoramento de métricas, existem vários, mas esse é muito bom;
+
+⦁	Seu código é aberto, não é controlado por nenhuma empresa (licença Apache 2.0);
+
+⦁	Ele se limita a fazer apenas uma coisa, e faz bem: analisar o desempenho dos nossos aplicativos e infraestrutura. Ele não resolve problemas fora do espaço de métricas, ele deixa isso para outras ferramentas;
+
+⦁	Ele possui biblioteca para diversas linguagens e diversos softwares já estão instrumentados com suas bibliotecas (Docker, Kubernetes);
+
+⦁	É possível integrá-lo com softwares que exibem métricas em outro formato (MySql, Kafka...);
+
+⦁	Funcionalidades:
+1.	PromQL = Linguagem que faz as consultas, é extremamente flexível;
+2.	A coleta de métricas ocorre sobre o HTTP;
+3.	Recebimento de métricas é suportado através de um gateway intermediário.
+
+⦁	Duas maneiras para coletar métricas:
+1.	Pull Model = É a mais utilizada, o Prometheus vai coletar as métricas de acordo com os endereços configurados. Se eu configurar para coletar métrica do endereço www.rodrigo.com.br/actuator/prometheus , a cada 5s haverá a coleta.
+2.	Push Model = Maneira menos utilizada, fica a cargo da aplicação enviar as métricas para o Prometheus. Para isso o Prometheus disponibiliza uma API. É utilizado para aplicações que duram pouco, que tem endereços mutávies (tarefas, funções Serverless).

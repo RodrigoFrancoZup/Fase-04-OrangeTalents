@@ -1,0 +1,92 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang22 Seguran\'e7a de aplica\'e7\'f5es cloud-native\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\b Agora vamos falar de Seguran\'e7a\b0 ! Tema muito importante e ao adicionar o Actuator devemos dar mais aten\'e7\'e3o!\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 A preocupa\'e7\'e3o com seguran\'e7a deve \b come\'e7ar junto com a cria\'e7\'e3o do projeto \b0 e continuar durante todo o processo de desenvolvimento, ou seja, devemos incorporar o a seguran\'e7a ao design do c\'f3digo!\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Garanta que sua aplica\'e7\'e3o utilize somente o conjunto de permiss\'f5es que ela necessita. Exemplo: se sua aplica\'e7\'e3o precise de acesso de leitura no banco de dados crie uma conta que permita somente leitura,\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Ao adicionar o Actuator \b n\'e3o \b0 devemos \b deixar nossa API P\'fablica\b0 , devemos \b adicionar autentica\'e7\'e3o e autoriza\'e7\'e3o\b0 ;\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Outra pr\'e1tica amplamente utilizada para evitar ataques ou roubo de dados nas nossas aplica\'e7\'f5es \'e9 encriptar os dados em tr\'e2nsito, utilizando um canal seguro;\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Outro fator importante \'e9 o Ofuscamento. Sempre que precisarmos "logar - colocar no Log" uma informa\'e7\'e3o que seja pass\'edvel de identifica\'e7\'e3o de uma pessoa \'e9 necess\'e1rio realizar o ofuscamento do dado. Exemplos: \par
+
+\pard\sa200\sl276\slmult1\tab CPF - 635.247.373-31 vira 635..-31;\par
+\tab Email - joe@email.com vira j****@****.com\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O princ\'edpio do menor privil\'e9gio (POLP):  resumidamente \'e9 dar acesso suficiente para realizar o trabalho necess\'e1rio. Exemplo:  Se um usu\'e1rio s\'f3 tem a necessidade de adicionar um registro no banco de dados o seu privil\'e9gio s\'f3 deve ser capaz de adicionar um registro, assim se um malware infectar o computador do funcion\'e1rio ou se o funcion\'e1rio clicar em um link em um e-mail de phishing, o ataque malicioso se limitar\'e1 a fazer entradas no banco de dados. Se esse funcion\'e1rio tiver privil\'e9gios de acesso root, no entanto, a infec\'e7\'e3o pode se espalhar por todo o sistema.\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Lugar/Camada que exige-se ofuscamento? Sempre que poss\'edvel, ofusque! Os lugares mais comuns s\'e3o \b Log \b0 de aplica\'e7\'e3o e \b Log \b0 de API's no API Manager;\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Nos desenvolvedores usamos os \b logs \b0 da nossa aplica\'e7\'e3o como uma ferramenta de encontrar problemas, normalmente nossos \b logs \b0 indicam os passos ou informa\'e7\'f5es que nos ajudam a direcionar a resolu\'e7\'e3o desses problemas. Usar log no Spring: \par
+
+\pard\sa200\sl276\slmult1\tab private final Logger logger = LoggerFactory.getLogger(Exemplo.class);\par
+\tab\tab public void criarProposta(Proposta proposta) \{ \par
+\tab\tab // C\'f3digo omitido \par
+\tab\tab logger.info("Proposta documento=\{\} sal\'e1rio=\{\} criada com sucesso!", \tab\tab\tab proposta.getDocumento(), proposta.getSalario()); \par
+\tab\tab\}\par
+\par
+\tab UTILIZE LOG, MAS COM CUIDADO!\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 O motivo de ter falado \b sobre seguran\'e7a em Spring Boot Actuator \b0\'e9 que esse m\'f3dulo traz muitas informa\'e7\'f5es e (libera muitos endpoints) isso \'e9 bom para n\'f3s, conseguimos ver a sa\'fade de nossa aplica\'e7\'e3o! Mas essas informa\'e7\'f5es podem ser utilizadas para explorar falhas de seguran\'e7a, pois entre essas informa\'e7\'f5es est\'e3o todas as depend\'eancias de nosso projeto e um Hacker pode conhecer ou pesquisar as falhas dessas depend\'eancias;\par
+
+\pard\sa200\sl276\slmult1\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Podemos melhorar o que foi dito anteriormente de duas maneiras: 1) habilitando endpoints (de informa\'e7\'f5es) necess\'e1rias ou 2) Remover os endpoint n\'e3o utilizados. Comandos para fazer isso:\par
+
+\pard\sa200\sl276\slmult1\tab 1\'ba Habilitar somente o que \'e9 utilizado: \tab management.endpoints.web.exposure.include=health,metrics,prometheus\par
+\tab 2\'ba Remover os n\'e3o utilizados: \tab management.endpoints.web.exposure.exclude=env,beans\par
+\tab\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 CORS (Cross-origin Resource Sharing) - \'c9 uma especifica\'e7\'e3o do W3C que utiliza o cabe\'e7alho (header) do HTTP para informar aos navegadores se um determinado recurso pode ou n\'e3o ser acessado. Podemos permitir que um recurso s\'f3 seja acessado por uma origem espec\'edfica. - Podemos aplicar isso ao Actuator, ou seja, ele s\'f3 vai dar informa\'e7\'e3o se a requisi\'e7\'e3o vier da origem configurada. Podemos configur\'e1-lo adicionando em application.properties os dois comandos:\par
+
+\pard\sa200\sl276\slmult1\tab management.endpoints.web.cors.allowed-origins=https://example.com\par
+\tab management.endpoints.web.cors.allowed-methods=GET\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Pergunta do professor sobre Seguran\'e7a em app cloud-native:\par
+
+\pard\sa200\sl276\slmult1\par
+Imagine que estamos trabalhando com uma API que trata de dados de cart\'e3o de cr\'e9dito de clientes de um banco. Supondo que essa aplica\'e7\'e3o ser\'e1 disponibilizada em um ambiente Cloud, quais cuidados devemos tomar em rela\'e7\'e3o aos dados dos usu\'e1rios processados pela aplica\'e7\'e3o? \par
+Geralmente utilizamos ferramentas de log na constru\'e7\'e3o de APIs para facilitar a identifica\'e7\'e3o de comportamentos incorretos, bugs ou falhas na execu\'e7\'e3o de funcionalidades. Quais cuidados devemos tomar em rela\'e7\'e3o aos logs quando pensamos em seguran\'e7a? \par
+Sendo uma API, nossa aplica\'e7\'e3o se comunicar\'e1 com outras. Pensando nisso descreva uma vulnerabilidade que podemos encontrar em rela\'e7\'e3o a seguran\'e7a e uma poss\'edvel solu\'e7\'e3o para ela.\par
+E em rela\'e7\'e3o ao banco de dados? Uma vez que estamos trabalhando com dados de cart\'e3o de cr\'e9dito dos clientes e os mesmo ser\'e3o persistidos, o que voc\'ea imagina que pode ser feito para diminuir a possibilidade do vazamento dessas informa\'e7\'f5es sens\'edveis ?\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Minha resposta:\par
+
+\pard\sa200\sl276\slmult1 Os dados tratados em nossa API devem ser  encriptografados e transmitidos  em um canal seguro. Quanto a utiliza\'e7\'e3o de logs devemos ter cuidado ao exibir o valor dos dados, pois s\'e3o dados que identificam o usu\'e1rio, ent\'e3o devemos aplicar a t\'e9cnica de ofuscamento.\par
+Se tratando de uma API, n\'f3s podemos restringir o acesso dos clientes, ou seja, o cliente s\'f3 acessa determinados endpoints. Para isso vamos utilizar: autentica\'e7\'e3o e valida\'e7\'e3o.\par
+Sobre o banco de dados devemos criar v\'e1rios usu\'e1rios com pap\'e9is bem definidos e em nossa aplica\'e7\'e3o utilizar o usu\'e1rio que tenha somente as atribui\'e7\'f5es necess\'e1rias, ou seja, nada de usar o banco com um usu\'e1rio que pode fazer tudo (criar, alterar, deletar, consultar) sem que haja necessidade disso tudo.\par
+\par
+
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Resposta do professor:\par
+
+\pard\sa200\sl276\slmult1 Objetivo de aprendizado: Levar em considera\'e7\'e3o a seguran\'e7a da nossa API, principalmente em rela\'e7\'e3o a dados sens\'edveis trafegados e manipulados por ela utilizando criptografia e ofuscamento dos dados.\par
+Motivo da escolha: Geralmente utilizamos ferramentas de log nas aplica\'e7\'f5es e ofuscar os dados apresentados se torna necess\'e1rio para minimizar a possibilidade do vazamento de dados sens\'edveis. Como h\'e1 comunica\'e7\'e3o entre API atrav\'e9s da rede, devemos tamb\'e9m nos preocupar com a poss\'edvel intercepta\'e7\'e3o das informa\'e7\'f5es no caminho entre origem e destino.\par
+Para os logs da aplica\'e7\'e3o, ofusco os dados que possam identificar os nossos clientes e/ou permitir que um agente malicioso fa\'e7a utiliza\'e7\'e3o impr\'f3pria dos mesmos.\par
+Para que a comunica\'e7\'e3o entre as aplica\'e7\'f5es seja feita se forma segura utilizo Spring Security para a configura\'e7\'e3o e a realiza\'e7\'e3o de autentica\'e7\'e3o e autoriza\'e7\'e3o de quem for utilizar as funcionalidades da nossa API.\par
+Para a camada de rede, implemento um suporte a HTTPS para criptografar os dados trafegados.\par
+Os dados persistidos em banco tamb\'e9m podem ser criptografados. Geralmente bancos de dados j\'e1 possuem funcionalidades para isso. Assim, qualquer pessoa que acesse o banco de dados n\'e3o obter\'e1 as informa\'e7\'f5es de maneira leg\'edvel.\par
+}
+ 

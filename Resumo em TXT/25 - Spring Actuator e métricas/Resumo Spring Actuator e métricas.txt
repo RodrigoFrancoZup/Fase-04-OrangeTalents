@@ -1,0 +1,30 @@
+Spring Actuator e métricas:
+
+⦁	Spring Boot Actuator já implementa as métricas do tipo RED:
+	http_server_requests_seconds_sum = Quantidade de tempo por segundo
+	http_server_requests_seconds_count = Quantidade de requisições por segundo 	
+	Podemos fazer a divisão da primeira linha pela segunda
+
+⦁	Micrometer: É uma biblioteca de métricas que suporta vários sistemas de monitoramento, como o Prometheus, Datadog e Dynatrace;
+
+⦁	Spring Boot Actuator fornece configuração automática para o Micrometer;
+
+⦁	Precisamos colocar em nosso projeto apenas a dependência do sistema de monitoramento que queremos utilizar, por exemplo Prometheus:
+	<dependency>
+		<groupId>io.micrometer</groupId>
+		<artifactId>micrometer-registry-prometheus</artifactId>
+	</dependency>
+
+⦁	Colocar as duas linhas seguintes no arquivo application.properties (servem para habilitar os endpoints do prometheus):
+	management.endpoints.web.exposure.include=info,health,prometheus
+	management.endpoints.prometheus.enabled=true
+
+⦁	Podemos testar acessando (get): http://localhost:8080/actuator/prometheus
+
+⦁	Digamos que agora o time de sustentação nos fale: Adicione uma LABEL com nome de aplicação e o ambiente. O que fazer?
+1.	Devemos entender o que é label (https://prometheus.io/docs/practices/naming/). Resumidamente, NAME será o nome da métrica, por exemplo: proposta_criadas_total e LABEL é para diferenciar as características da métrica, por exemplo:  proposta_criadas_total{aplicacao="serviço de proposta", ambiente="desenvolvimento"}. A LABEL ficou dentro do {}, com ela sabemos que a métrica é referente ao serviço de proposta e do ambiente desenvolvimento;
+2.	Cuidado com a quantidade de LABEL, elas pesam!
+3.	Devemos utilizar o application.properties para indicar os valores da LABEL: management.metrics.tags.aplicacao=serviço de proposta management.metrics.tags.ambiente=desenvolvimento
+4.	A maneira que colocamos os valores no LABEL não é a melhor, pois ao subir a aplicação não podemos mudá-los, devemos usar assim: management.metrics.tags.aplicacao=${NOME_DA_APLICACAO:serviço de proposta} management.metrics.tags.ambiente=${AMBIENTE:desenvolvimento}
+obs: Essa técnica de passar o valor entre ${} funciona assim, se passarem o valor por variável de ambiente eu mudo, caso contrário utilizo o "serviço de proposta" como valor.
+

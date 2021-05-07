@@ -1,0 +1,25 @@
+Jeager - Baggage Item:
+
+⦁	O Spring prove a classe Tracer para fazermos operações relacionadas ao OpenTracing;
+	1º) Precisamos injetar o objeto Tracer, conforme código abaixo: 
+
+	public class PropostaController { 
+	private final Tracer tracer; 
+	public PropostaController(Tracer tracer) {
+	 this.tracer = tracer; }
+	 } 
+
+	2º) Agora que temos o objeto, precisamos pegar o span ativo, conforme código 	abaixo: 
+
+	Span activeSpan = tracer.activeSpan(); 
+
+	3º )Precisamos definir o Baggage Item desejado, para isso o objetivo Span tem o 	método setBaggageItem, conforme código abaixo: 
+
+	activeSpan.setBaggageItem("user.email", "luram.archanjo@zup.com.br");
+
+⦁	Para testar basta acessar: localhost:16686/search (Jaeger precisa ser inciado, verifique o docker-compose) e realize uma operação como criar uma proposta. Verifique se o Baggage Item consta;
+
+⦁	Para isso funcionar foi utilizado o método getBaggageItem():
+	Span activeSpan = tracer.activeSpan(); 
+	String userEmail = activeSpan.getBaggageItem("user.email"); 
+	activeSpan.setBaggageItem("user.email", userEmail);

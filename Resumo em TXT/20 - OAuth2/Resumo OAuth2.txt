@@ -1,0 +1,25 @@
+OAuth2 um padrão de mercado para segurança de APIs REST!
+
+⦁	Não queremos que qualquer usuário acesse nossa aplicação!
+
+⦁	Uma maneira simples de resolver isso é exigir ao cliente os dados de usuário e senha;
+
+⦁	A maneira anterior (User e Password) não é tão segura, pois em toda request o cliente tem que passar esses dados no HEADER, se um hacker pegar esses dados o mesmo vai consumir nossa aplicação;
+
+⦁	Essa maneira também não aceita delegação de acesso, ou seja, informar a credencial do Google, Facebook, Github para se autenticar. E é óbvio que não queremos ter que passar a senha da minha conta google para um outro "site";
+
+⦁	Se há delegação então há mais sistemas envolvidos!
+
+⦁	O fluxo OAuth2 é composto por 4 entidades principais:
+1.	Resource Owner (Proprietário do Recurso) = É quem requisita o acesso, pode ser uma pessoa ou outro sistema, é quem vai consumir o recurso. Essa entidade que é dona das credenciais (password/senha), é o usuário final;
+2.	Client (Cliente) = Aplicação que faz o meio de campo entre Resource Owner e os servidores (de recurso e de autorização). Numa aplicação web seria o navegador;
+3.	Authorization Server (Servidor de Autorização) = Esse é o servidor que vai autenticar o Resource Owner, esse servidor vai verificar login/senha e vai devolver o token (permissão) para o resource owner poder acessar o recurso desejado. Podemos entendê-lo como um fornecedor de login. Seu serviço será dar o login (token). Ex: Quando temos a opção de efetuar login em um sistema qualquer com a conta do google e Google está sendo nosso Authorization Server;
+4.	Resource Server (Servidor de Recurso) = Esse servidor é o que tem o recurso que o Resource Owner deseja consultar/executar. A primeira requisição do Resource Owner a esta servidor será para "escolher" a forma para logar-se, com a escolha feita esse servidor redireciona o Resource Owner para o Authorization Server, para assim o Resource Owner se autenticar. Sendo autenticado o Authorization Server retorna um token ao Resource Owner e o redireciona para o Resource Server (Resource Owner vai junto com o token), e agora o Resource Server pega o token que estava com Resource Owner e consulta o Authorization Server para confirmar se está tudo certo, estando tudo certo o Resource Owner poderá fazer sua requisição. Esse servidor alem de prover os recursos que o Resource Owner deseja também tem que ser capaz de verificar o token e autenticar o Resource Owner (ele consulta Authorization Server);
+
+⦁	Podemos criar nosso Authorization Server com o Spring, mas é uma tarefa dificil e que exige conhecimento em segurança;
+
+⦁	OpenID Connect: Protocolo de autenticação utilizado no OAuth2, que podemos usar para conectar com segurança um usuário a um aplicativo;
+
+⦁	IAM - Identity and Access Management (Esse vai gerar os tokens para nós - logo atuará como Authorization Server):  Seu papel é também gerenciar os perfis/categorias de usuário.  Vamos utilizar a implementação do Keycloak;
+
+⦁	Keycloak: É uma implementação que cria uma separação de usuários,credenciais, grupos e permissões por Realm, então cada Realm tem seus metadados.

@@ -1,0 +1,43 @@
+Métricas do tipo RED:
+
+⦁	Quando falamos de métricas há vários tipos. Há métricas de infraestrutura (CPU, Memória, rede...), há métricas de negócio (Quantidade de usuário, de vendas, de compras...);
+
+⦁	Quando falamos de arquitetura distribuída, por exemplo Microsserviços, existe a boa prática denominada RED;
+
+⦁	RED tem objetivo responder três perguntas:
+1.	Rate = Quantidade de solicitações, por segundo, que os serviços estão processando;
+2.	Erros = Quantidade de solicitações com falha por segundo;
+3.	Duration =  Quantidade de tempo que cada solicitação leva.
+
+⦁	Ter essa métrica é recomendada pela ZUP. Pois ajuda muito em troubleshooting de anomalias;
+
+⦁	Exemplo de uso: Clientes reclamando que as transferências de TED está muito lenta. Sem métricas RED o time de desenvolvimento não consegue encontrar o problema, com métricas o problema ficou claro. O problema era que a quantidade de solicitações cresceu muito e não estão aguentando a carga e isso tem gerado muita requisição com falha e requisições com alto tempo;
+
+⦁	Sem métrica a solução do problema demora, com demora o cliente fica insatisfeito e procura outro serviço (seu concorrente);
+
+⦁	Spring Boot Actuator já implementa as métricas do tipo RED:
+	http_server_requests_seconds_sum = Quantidade de tempo por segundo
+	http_server_requests_seconds_count = Quantidade de requisições por segundo 	
+	Podemos fazer a divisão da primeira linha pela segunda
+
+⦁	Micrometer: É uma biblioteca de métricas que suporta vários sistemas de monitoramento, como o Prometheus, Datadog e Dynatrace;
+
+⦁	Spring Boot Actuator fornece configuração automática para o Micrometer;
+
+⦁	Precisamos colocar em nosso projeto apenas a dependência do sistema de monitoramento que queremos utilizar, por exemplo Prometheus:
+	<dependency>
+		<groupId>io.micrometer</groupId>
+		<artifactId>micrometer-registry-prometheus</artifactId>
+	</dependency>
+
+⦁	Colocar as duas linhas seguintes no arquivo application.properties (servem para habilitar os endpoints do prometheus):
+	management.endpoints.web.exposure.include=info,health,prometheus
+	management.endpoints.prometheus.enabled=true
+
+⦁	Podemos testar acessando (get): http://localhost:8080/actuator/prometheus
+
+⦁	Digamos que agora o time de sustentação nos fale: Adicione uma LABEL com nome de aplicação e o ambiente. O que fazer?
+1.	Devemos entender o que é label (https://prometheus.io/docs/practices/naming/). Resumidamente, NAME será o nome da métrica, por exemplo: proposta_criadas_total e LABEL é para diferenciar as características da métrica, por exemplo:  proposta_criadas_total{aplicacao="serviço de proposta", ambiente="desenvolvimento"}. A LABEL ficou dentro do {}, com ela sabemos que a métrica é referente ao serviço de proposta e do ambiente desenvolvimento;
+2.	Cuidado com a quantidade de LABEL, elas pesam!
+3.	Devemos utilizar o application.properties para indicar os valores da LABEL: management.metrics.tags.aplicacao=serviço de proposta management.metrics.tags.ambiente=desenvolvimento
+4.	A maneira que colocamos os valores no LABEL não é a melhor, pois ao subir a aplicação não podemos mudá-los, devemos usar assim: management.metrics.tags.aplicacao=${NOME_DA_APLICACAO:serviço de proposta} management.metrics.tags.ambiente=${AMBIENTE:desenvolvimento}

@@ -1,0 +1,17 @@
+Readiness Check ou Liveness Check:
+
+⦁	No Kubernete Readiness e Liveness representam estados do aplicativo - chamamos de probes (em portugues significa sonda - do verbo checar, sondar...);
+
+⦁	O estado Liveness:  É um estado interno do aplicativo, quando esse estado está quebrado (falho) indica que a aplicação quebrou e ela não consegue se recuperar. Quando isso ocorre, a melhor ação é reiniciar a instância do aplicativo. Exemplo: um aplicativo que depende de um cache local deve falhar se o cache local estiver corrompido e não haver possibilidade de reparar o cache;
+
+⦁	Readiness: É o estado que indica ao cliente se o aplicativo está pronto para receber requisições. Se o estado indicar que não está pronto, não devemos rotear tráfego para essa instância. Seu estado pode ser de ocupado, por exemplo quando está processando uma fila de tarefas, então ele só voltará a receber tráfego quando se desocupar;
+
+⦁	Uma das maneiras de se configurar essas Probes é com Actuator, pois o Actuator irá usar o Health Support para fazer essa consiguração;
+
+⦁	O Actuator coletará as informações (estados) de Liveness e Readiness e usará nos indicadores de saúde dedicados a isso: LivenessStateHealthIndicator  e ReadinessStateHealthIndicator;
+
+⦁	As Probes HTTP são configuradas apenas para aplicações que estão rodando no Kubernetes. Para configurá-las localmente precisamos  habilitar a propriedade (no arquivo application.properties):  management.health.probes.enabled = true;
+
+⦁	As Probes de HTTP são as mais usadas, mas como já dei o exemplo do Cache (É uma Liveness Probe) é possível configurar indicadores de saúde que vão verificar  banco de dados, cache, outra API...
+
+Não houve pergunta (formulário) sobre esse assunto.

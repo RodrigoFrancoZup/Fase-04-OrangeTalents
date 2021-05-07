@@ -1,0 +1,16 @@
+Métricas do tipo USE:
+
+⦁	Quando falamos de métricas há vários tipos. Há métricas de infraestrutura (CPU, Memória, rede...), há métricas de negócio (Quantidade de usuário, de vendas, de compras...);
+
+⦁	Quando falamos de arquitetura distribuída, por exemplo Microsserviços, existe a boa prática denominada USE;
+
+⦁	USE tem objetivo responder três perguntas:
+1.	Utilization = Média de tempo que o recurso está sendo utilizado;
+2.	Saturation = O grau em que o recurso tem trabalho extra que não pode atender;
+3.	Error =  Quantidade de falhas no recurso.
+
+⦁	Ter essa métrica é recomendada pela ZUP. Pois ajuda muito em troubleshooting de anomalias;
+
+Exemplo de uso: Clientes reclamando que está lento o envio de e-mail. Sem métricas, o time de desenvolvimento não sabe o que está acontecendo. Com métricas o time descobre que o aumento de envio de e-mail está deixando a média de utilização da CPU em 95% (Utilization), que a filha de envio de e-mail está sempre em espera (Saturation) e que alguns e-mail são descartados devido o tempo de expiração (Error).
+
+⦁	Sem métrica a solução do problema demora, com demora o cliente fica insatisfeito e procura outro serviço (seu concorrente);
