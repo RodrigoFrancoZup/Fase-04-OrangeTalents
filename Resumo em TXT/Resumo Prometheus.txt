@@ -1,5 +1,9 @@
 Prometheus:
 
+⦁	Prometheus é suportado pela biblioteca Micrometer, e essa biblioteca é suportada pelo Spring Boot Actuator(já vem configurado automaticamente para funcionar);
+
+⦁	Prometheus coleta a métrica, com o Micrometer podemos criar métricas;
+
 ⦁	É um sistema de monitoramento de métricas, existem vários, mas esse é muito bom;
 
 ⦁	Seu código é aberto, não é controlado por nenhuma empresa (licença Apache 2.0);

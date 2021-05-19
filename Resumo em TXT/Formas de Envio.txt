@@ -1,0 +1,22 @@
+⦁	O envio do Jeager pode ser de diversas formas, e podemos configurá-las no arquivo application.properties:
+
+⦁	Envio contantes (mais perigosa, muita operação vai exigir muito recurso computacional):
+# True para enviar 100%
+opentracing.jaeger.const-sampler.decision=${JAEGER_SAMPLER:true}
+
+# False para desativar
+opentracing.jaeger.const-sampler.decision=${JAEGER_SAMPLER:false}
+
+⦁	Envio por amostragem probabilistica(mais usada, pois permite mais possbilidades/flexibilidade):
+# Para enviar 100%
+opentracing.jaeger.probabilistic-sampler.sampling-rate=${JAEGER_SAMPLER:1}
+
+# Para enviar 50%
+opentracing.jaeger.probabilistic-sampler.sampling-rate=${JAEGER_SAMPLER:0.5}
+
+# Para enviar 10%
+opentracing.jaeger.probabilistic-sampler.sampling-rate=${JAEGER_SAMPLER:0.1}
+
+⦁	Envio amostagem rate limit (é a mais segura):
+# Para enviar 10 traces por segundo
+opentracing.jaeger.rate-limiting-sampler.max-traces-per-second=${JAEGER_SAMPLER:10}
